@@ -39,3 +39,21 @@ resource "google_container_cluster" "default" {
     channel = "REGULAR"
   }
 }
+
+# allow traffic to reach the cluster
+resource "google_compute_firewall" "allow_http" {
+  name    = "allow-http"
+  network = google_compute_network.vpc.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+  direction = "INGRESS"
+
+  # enable when security is in place
+  # source_ranges = ["0.0.0.0/0"]
+
+  # my IP
+  source_ranges = ["84.105.69.90/32"]
+}
