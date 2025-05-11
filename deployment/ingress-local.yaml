@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-pdfium
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: pdfium.local
+    http:
+      paths:
+      - path: /render
+        pathType: Exact
+        backend:
+          service:
+            name: pdfium-service
+            port:
+              number: 80
+      - path: /livez
+        pathType: Exact
+        backend:
+          service:
+            name: pdfium-service
+            port:
+              number: 80
