@@ -7,3 +7,8 @@ variable "region" {
   description = "region"
   default     = "europe-west4"
 }
+
+variable "cluster_name" {
+  description = "cluster name"
+  default     = "klippa-assignment"
+}

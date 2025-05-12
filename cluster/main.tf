@@ -28,7 +28,7 @@ resource "google_compute_subnetwork" "subnet" {
 
 # Cluster
 resource "google_container_cluster" "default" {
-  name       = "klippa-assignment"
+  name       = var.cluster_name
   location   = var.region
   network    = google_compute_network.vpc.name
   subnetwork = google_compute_subnetwork.subnet.name
@@ -56,4 +56,10 @@ resource "google_compute_firewall" "allow_http" {
 
   # my IP
   source_ranges = ["84.105.69.90/32"]
+}
+
+# reserve a static IP
+resource "google_compute_address" "static_ip" {
+  name   = "${var.cluster_name}-ip"
+  region = var.region
 }
