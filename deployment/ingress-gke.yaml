@@ -7,8 +7,9 @@ metadata:
     # todo: this doesn't seem to work. Possibly works only with google ingress
     # kubernetes.io/ingress.global-static-ip-name: klippa-assignment-ip
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    # todo: needed?
-    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.default.svc.cluster.local/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://35-204-29-127.nip.io/oauth2/start?rd=$request_uri"
 spec:
   ingressClassName: nginx
   rules:
@@ -29,6 +30,32 @@ spec:
             name: pdfium-service
             port:
               number: 80
+  # the tls block can be even omitted when using cert-manager
+  tls:
+    - hosts:
+      - 35-204-29-127.nip.io
+      secretName: klippa-assignment-tls
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-oauth2
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: 35-204-29-127.nip.io
+      http:
+        paths:
+          - path: /oauth2
+            pathType: Prefix
+            backend:
+              service:
+                name: oauth2-proxy
+                port:
+                  number: 4180
   tls:
     - hosts:
       - 35-204-29-127.nip.io
