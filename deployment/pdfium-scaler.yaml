@@ -1,0 +1,34 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: pdfium-memory-scaler
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: pdfium-deployment
+  minReplicaCount: 1
+  maxReplicaCount: 4
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-operated.monitoring.svc:9090
+        metricName: memory_utilization_percent
+        query: |
+          (
+            sum by (pod) (
+              container_memory_usage_bytes{
+                namespace="default",
+                container!~"^(POD)?$",
+                pod=~"^pdfium.*"
+              }
+            )
+            /
+            sum by (pod) (
+              kube_pod_container_resource_limits{
+                namespace="default",
+                resource="memory",
+                pod=~"^pdfium.*"
+              }
+            )
+          ) * 100
+        threshold: "75"
