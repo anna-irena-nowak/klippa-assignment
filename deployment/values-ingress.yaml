@@ -1,0 +1,14 @@
+---
+controller:
+  resources:
+    # dafaults https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+  service:
+    # this is deprecated, but it seems to be the only way that works
+    loadBalancerIP: 35.204.29.127
