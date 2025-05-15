@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: pdfium-service-monitor
+  labels:
+    release: prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: pdfium-service
+  namespaceSelector:
+    matchNames:
+      - default # namespace of the service
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
