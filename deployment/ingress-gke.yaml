@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: ingress-pdfium
   annotations:
-    # todo: this doesn't seem to work. Possibly works only with google ingress
+    # TODO: this doesn't seem to work. Possibly works only with google ingress or regional IPs
     # kubernetes.io/ingress.global-static-ip-name: klippa-assignment-ip
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
@@ -31,7 +31,6 @@ spec:
             name: pdfium-service
             port:
               number: 80
-  # the tls block can be even omitted when using cert-manager
   tls:
     - hosts:
       - 35-204-29-127.nip.io
