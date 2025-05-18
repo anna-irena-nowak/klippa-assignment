@@ -1,0 +1,6 @@
+---
+controller:
+  # resource requests defaults: https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
+  service:
+    # this is deprecated, but it seems to be the only way that works
+    loadBalancerIP: 35.204.29.127
