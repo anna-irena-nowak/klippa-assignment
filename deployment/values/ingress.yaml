@@ -4,3 +4,19 @@ controller:
   service:
     # this is deprecated, but it seems to be the only way that works
     loadBalancerIP: 35.204.29.127
+  metrics:
+    enabled: true
+    service:
+      port: 10254
+      targetPort: metrics
+    extraArgs:
+      enable-prometheus-metrics: "true"
+      metrics-per-ingress: "true"
+      metrics-per-service: "true"
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
+      interval: 30s
+      scrapeTimeout: 10s
+      additionalLabels:
+        release: prometheus-stack

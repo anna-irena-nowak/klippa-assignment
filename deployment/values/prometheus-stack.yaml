@@ -18,6 +18,9 @@ prometheus:
       limits:
         cpu: 500m
         memory: 2Gi
+    # https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/monitoring.md#configure-prometheus
+    podMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
 
 alertmanager:
   alertmanagerSpec:
