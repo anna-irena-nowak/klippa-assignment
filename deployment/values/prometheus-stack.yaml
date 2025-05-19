@@ -1,7 +1,16 @@
+# https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
 ---
 prometheus:
   prometheusSpec:
-    retention: 6h
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: standard
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 2Gi
+    retention: 10d
     resources:
       requests:
         cpu: 80m
@@ -37,6 +46,17 @@ grafana:
     limits:
       cpu: 100m
       memory: 512Mi
+
+  # make Grafana persistent (Using Statefulset). Creates a Persistent Disk.
+  persistence:
+    enabled: true
+    type: sts # Statefulset. `Deployment`can be used for test clusters
+    storageClassName: standard
+    accessModes:
+      - ReadWriteOnce
+    size: 5Gi
+    finalizers:
+      - kubernetes.io/pvc-protection
 
 prometheus-node-exporter:
   resources:
