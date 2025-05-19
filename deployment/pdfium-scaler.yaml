@@ -15,7 +15,7 @@ spec:
         metricName: memory_utilization_percent
         query: |
           (
-            sum by (pod) (
+            sum (
               container_memory_usage_bytes{
                 namespace="default",
                 container!~"^(POD)?$",
@@ -23,7 +23,7 @@ spec:
               }
             )
             /
-            sum by (pod) (
+            sum (
               kube_pod_container_resource_limits{
                 namespace="default",
                 resource="memory",
