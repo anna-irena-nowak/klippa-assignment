@@ -128,7 +128,7 @@ helm install loki grafana/loki-stack \
 ```
 
 ## Testing
-**OAuth**. Use GitHub PAT as a request token for the simplest way to get through authentication. However, it's very easy to hit GitHub rate limits like that, so the quickest dirty workaround is to expose an endpoint for testing bypassing OAuth redirect by applying `ingress-testing.yaml`. There exists probably some sensible way around that.
+**OAuth**. Use `oauth_proxy` session cookie in requests.
 
 Start Locust webUI in the directory containing `locustfile.py`.
 
