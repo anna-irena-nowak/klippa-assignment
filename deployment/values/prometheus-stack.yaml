@@ -26,10 +26,10 @@ alertmanager:
   alertmanagerSpec:
     resources:
       requests:
-        cpu: 15m
+        cpu: 10m
         memory: 50Mi
       limits:
-        cpu: 200m
+        cpu: 100m
         memory: 200Mi
 
 kube-state-metrics:
@@ -64,7 +64,7 @@ grafana:
 prometheus-node-exporter:
   resources:
     requests:
-      cpu: 15m
+      cpu: 8m
       memory: 24Mi
     limits:
       cpu: 50m
@@ -73,7 +73,7 @@ prometheus-node-exporter:
 prometheusOperator:
   resources:
     requests:
-      cpu: 50m
+      cpu: 10m
       memory: 100Mi
     limits:
       cpu: 200m

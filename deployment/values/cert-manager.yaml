@@ -1,7 +1,7 @@
 ---
 resources:
   requests:
-    cpu: 10m
+    cpu: 5m
     memory: 64Mi
   limits:
     cpu: 100m
@@ -10,7 +10,7 @@ resources:
 cainjector:
   resources:
     requests:
-      cpu: 10m
+      cpu: 5m
       memory: 64Mi
     limits:
       cpu: 100m
@@ -19,7 +19,7 @@ cainjector:
 webhook:
   resources:
     requests:
-      cpu: 10m
+      cpu: 5m
       memory: 64Mi
     limits:
       cpu: 100m
