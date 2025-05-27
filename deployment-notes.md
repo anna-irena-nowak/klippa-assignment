@@ -86,6 +86,7 @@ See also [How to uninstall cert-manager](https://cert-manager.io/docs/installati
 
 Great reference docs: https://cert-manager.io/docs/tutorials/acme/nginx-ingress/
 
+#### oauth2-proxy
 Create OAuth secrets in the cluster (assuming new OAuth app is registered, in this case in GitHub)
 ```
 kubectl create secret generic oauth2-secret \
@@ -94,6 +95,17 @@ kubectl create secret generic oauth2-secret \
   --from-literal=cookie-secret=$(openssl rand -base64 32 | tr -- '+/' '-_')
 ```
 
+`oauth2-proxy` supports browser-based flow, where it creates a session cookie after authenticating 
+with OAuth2 provider.
+If using session cookie is not practical for automation, there's a possible workaround that can work
+directly with oauth tokens. Ingress can expose an xtra path that bypasses oauth2-proxy, but delivers
+the request with a token bearer header to an additional validation tool that would check whether the
+token is valid by making a call to a GitHub API. 
+OAuth2-proxy can also work with JWT tokens, but GitHub OAuth flow does not provide them. An alternative
+would be to use a 3rd party service like Keycloak or Auth0 and use them as OAuth2 provider, or integrate
+them directly without the proxy.
+
+#### HPA
 Install KEDA for pod scaling
 ```
 helm repo add kedacore https://kedacore.github.io/charts
@@ -131,6 +143,8 @@ helm install loki grafana/loki-stack \
 **OAuth**. Use `oauth_proxy` session cookie in requests.
 
 Start Locust webUI in the directory containing `locustfile.py`.
+Or in headless mode, e.g.
+`locust --headless -u 2 -t 2m --tags small_files -H https://35-204-29-127.nip.io`
 
 
 ## Improvements
