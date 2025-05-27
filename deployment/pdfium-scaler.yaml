@@ -1,7 +1,7 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: pdfium-memory-scaler
+  name: pdfium-scaler
   namespace: default
 spec:
   scaleTargetRef:
@@ -32,3 +32,8 @@ spec:
             )
           ) * 100
         threshold: "75"
+    - type: cpu
+      metricType: Utilization
+      metadata:
+        metricName: cpu_utilization
+        value: "90"
