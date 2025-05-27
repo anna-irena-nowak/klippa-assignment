@@ -1,4 +1,4 @@
-from locust import HttpUser, task, between
+from locust import HttpUser, task, between, tag
 import os
 
 class MyUser(HttpUser):
@@ -6,6 +6,7 @@ class MyUser(HttpUser):
     # enable when authentication needed
     token = os.environ['OAUTH_COOKIE']
 
+    @tag('small_files')
     @task
     def post_data(self):
         # enable when authentication needed
