@@ -9,8 +9,9 @@ prometheus:
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
-              storage: 2Gi
-    retention: 10d
+              storage: 3Gi
+    retention: 5d
+    retentionSize: 2Gi
     resources:
       requests:
         cpu: 80m
@@ -45,10 +46,18 @@ grafana:
   resources:
     requests:
       cpu: 50m
-      memory: 300Mi
+      memory: 400Mi
     limits:
       cpu: 100m
-      memory: 512Mi
+      memory: 700Mi
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki:3100
+      jsonData:
+        timeout: 60
+        maxlines: 1000
 
   # make Grafana persistent (Using Statefulset). Creates a Persistent Disk.
   persistence:
